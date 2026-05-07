@@ -2,3 +2,68 @@
     max-width: 8rem;
     max-height: auto;
 }
+
+.department {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto auto;
+    text-align: center;
+}
+
+li {
+    margin: 0 0 0.5rem 0;
+}
+
+.headerContainer {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+h1 {
+    margin: 0;
+}
+
+#employeeInformation {
+    grid-template-columns: auto auto auto auto;
+    display: grid;
+    flex: auto;
+}
+@media (max-width: 1200px) {
+    #employeeInformation {
+        grid-template-columns: auto auto auto;
+    }
+
+    ul {
+        display: block;
+    }
+    .headerContainer ,header {
+        display: block;
+    }
+        @media (max-width: 880px) {
+            #employeeInformation {
+                grid-template-columns: auto auto;
+            }
+        
+            @media (max-width: 560px) {
+                #employeeInformation {
+                    grid-template-columns: auto;
+                }
+            }
+        }
+}
+
+#footer {
+    text-align: right;
+}
