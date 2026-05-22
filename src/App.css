@@ -1,0 +1,71 @@
+.logo {
+    max-width: 8rem;
+    max-height: auto;
+}
+
+.department {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto;
+    text-align: center;
+}
+
+li {
+    margin: 0 0 0.5rem 0;
+}
+
+.headerContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#employeeInformation {
+    grid-template-columns: auto auto auto auto;
+    display: grid;
+    flex: auto;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1200px) {
+    #employeeInformation {
+        grid-template-columns: auto auto auto;
+    }
+
+    ul {
+        display: block;
+    }
+    .headerContainer ,header {
+        display: block;
+    }
+        @media (max-width: 880px) {
+            #employeeInformation {
+                grid-template-columns: auto auto;
+            }
+        
+            @media (max-width: 560px) {
+                #employeeInformation {
+                    grid-template-columns: auto;
+                }
+            }
+        }
+}
+
+#footer {
+    text-align: right;
+}
