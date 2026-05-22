@@ -11,7 +11,7 @@ ul {
     list-style-type: none;
     padding: 0;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
     text-align: center;
 }
 
@@ -20,19 +20,15 @@ li {
 }
 
 .headerContainer {
-    text-align: center;
     display: flex;
     justify-content: center;
+    margin-bottom: 2em;
 }
 
 header {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-
-h1 {
-    margin: 0;
+    justify-content: center;
+    width: 100%;
 }
 
 #employeeInformation {
@@ -40,6 +36,12 @@ h1 {
     display: grid;
     flex: auto;
 }
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 1200px) {
     #employeeInformation {
         grid-template-columns: auto auto auto;
