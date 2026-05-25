@@ -1,14 +1,14 @@
 import EmployeeSection from "./EmployeeSection/EmployeeSection";
-import { EmployeeData } from "../../assets/data";
 import EmployeeList from "./EmployeeList/EmployeeList";
+import type { EmployeeDirectoryProps } from "../../types/EmployeeDirectoryTypes";
 
-export default function EmployeeDirectory() {
+export default function EmployeeDirectory({employees} : EmployeeDirectoryProps) {
     return <>
         <section id="employeeInformation" >        
-            {Object.entries(EmployeeData).map(([department, employees]) => (
+            {Object.entries(employees).map(([department, employeesList]) => (
                 <EmployeeSection key={department} department={department}>
                     <ul>
-                        {employees.map(employee => (
+                        {employeesList.map(employee => (
                             <EmployeeList key={employee.firstName + "_" + employee.lastName} employee={employee}/>
                         ))}
                     </ul>
