@@ -1,13 +1,6 @@
-interface Department {
-    [departmentName: string]: Employee[];
-}
+import type { EmployeeDirectoryData } from "../types/EmployeeDirectoryTypes";
 
-interface Employee {
-	firstName: string;
-    lastName?: string;
-}
-
-export const EmployeeData: Department = {
+export const EmployeeData: EmployeeDirectoryData = {
     "Board of Directors": [
         { firstName: "Jo-Anne", lastName: "Sinclair" },
         { firstName: "Jackson", lastName: "Smith" },
