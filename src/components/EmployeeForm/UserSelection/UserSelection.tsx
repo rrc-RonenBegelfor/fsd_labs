@@ -10,7 +10,7 @@ type UserSelectionTypes = {
 export default function UserSelection({name, employees, value, onChange} : UserSelectionTypes) {
     return <>
         <label htmlFor={name}>Departments</label>
-        <select name={name} onChange={onChange} value={value}>
+        <select name={name} onChange={onChange} value={value} id={name}>
             <option value="" disabled>
                 Select a department
             </option>

@@ -17,5 +17,26 @@
 }
 
 form {
-    max-width: 16rem;
+    margin: 0 auto 0 auto;
+    text-align: left;
+}
+
+select {
+    padding: 0.5rem;
+}
+
+label {
+    margin: 1em 0 0 0;
+}
+
+button {
+    margin: 1em;
+    padding: 1em;
+    background-color: rgb(65, 65, 65);
+    border: none;
+}
+
+button:hover:not([disabled]) {
+    cursor: pointer;
+    background-color: rgb(94, 93, 93);
 }

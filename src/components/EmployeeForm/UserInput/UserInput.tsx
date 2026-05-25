@@ -16,7 +16,7 @@ export default function UserInput({error, type, placeholder, name, value, minLen
 
     return <>
             <label htmlFor={name}>{placeholder}</label>
-            <input type={type} placeholder={placeholder} name={name} value={value} onBlur={onBlur} onChange={onChange} required/>
+            <input type={type} placeholder={placeholder} name={name} value={value} onBlur={onBlur} onChange={onChange} id={name} required/>
             {hasError && <span className="input-error">{error}</span>}
         </>
     

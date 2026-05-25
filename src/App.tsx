@@ -1,37 +1,19 @@
+import { Routes, Route } from "react-router-dom";
+
 import './App.css'
-import EmployeeDirectory from './components/EmployeeDirectory/EmployeeDirectory'
-import EmployeeForm from './components/EmployeeForm/EmployeeForm'
-import Footer from './components/Footer'
-import Header from './components/Header'
-import { EmployeeData } from './assets/data'
-import { useState } from 'react'
-import type { EmployeeDirectoryData, Employee } from './types/EmployeeDirectoryTypes'
+import EmployeePage from './components/Pages/EmployeePage';
+import { Layout } from "./components/common/Layout/Layout";
+import OrganizationPage from "./components/Pages/OrganizationPage";
 
 function App() {
 
-  const [employees, setEmployees] = useState<EmployeeDirectoryData>(EmployeeData);
-
-  function addEmployee(firstName: string, lastName: string, department: string) {
-    const newEmployee: Employee = {
-      firstName,
-      lastName,
-    }
-
-    setEmployees((prev) => ({
-      ...prev,
-      [department]: [
-        ...(prev[department] || []),  
-        newEmployee
-      ]
-    }))
-  }
-
   return (
     <>
-    <Header />
-    <EmployeeDirectory employees={employees}/>
-    <EmployeeForm addEmployee={addEmployee} employees={employees}/>
-    <Footer />
+    <Routes>
+      <Route path="/" element={<Layout/>}/>
+      <Route path="/employees" element={<EmployeePage/>}/>
+      <Route path="/organization" element={<OrganizationPage/>}/>
+    </Routes>
     </>
   )
 }
