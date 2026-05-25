@@ -6,7 +6,6 @@ export default function Footer() {
         return currentYear;
     }
 
-
     return <>
         <footer id="footer">Copyright Pixell River {footerYear()}</footer>
     </>

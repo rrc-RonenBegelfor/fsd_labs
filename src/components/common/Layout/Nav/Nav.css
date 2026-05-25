@@ -1,0 +1,24 @@
+nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #E8E8E8;
+}
+
+nav span {
+    margin: 0.5em;
+}
+
+a {
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+    padding: 0.25em;
+    margin: 0.5rem;
+    color: rgb(68, 75, 85);
+}
+
+a:hover {
+    background-color: #FFE44D;
+    padding: 0.25em;
+    border-radius: 0.25em;
+}
