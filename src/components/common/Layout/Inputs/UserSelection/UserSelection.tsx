@@ -1,4 +1,4 @@
-import type { EmployeeDirectoryData } from "../../../types/EmployeeDirectoryTypes"
+import type { EmployeeDirectoryData } from "../../../../../types/EmployeeDirectoryTypes"
 
 type UserSelectionTypes = {
     name: string;

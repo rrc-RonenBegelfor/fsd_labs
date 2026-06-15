@@ -1,4 +1,5 @@
 import type { EmployeeDirectoryData } from "./EmployeeDirectoryTypes";
+import type { LeadershipRoleData } from "./LeadershipRoleTypes";
 
 export type EmployeeFormTypes = {
     addEmployee: (
@@ -7,4 +8,13 @@ export type EmployeeFormTypes = {
         department: string,
     ) => void;
     employees: EmployeeDirectoryData;
+}
+
+export type LeaderFormTypes = {
+    addLeader: (
+        firstName: string,
+        lastName: string,
+        role: string,
+    ) => void;
+    leaders: LeadershipRoleData;
 }

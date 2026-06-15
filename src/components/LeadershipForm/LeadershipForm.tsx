@@ -1,18 +1,21 @@
 import UserInput from "../common/Layout/Inputs/UserInput/UserInput"
-import type { EmployeeFormTypes } from "../../types/FormTypes";
-import "./EmployeeForm.css"
-import UserSelection from "../common/Layout/Inputs/UserSelection/UserSelection";
+import "./LeadershipForm.css"
 import type { ValidationResult } from "../../types/ValidationFormHookTypes";
 import { useFormInput } from "../../hooks/useFormInput";
+import type { LeaderFormTypes } from "../../types/FormTypes";
+import { useState } from "react";
+import type { LeadershipRoleData } from "../../types/LeadershipRoleTypes";
 
 type RuleTypes = {
     firstName: number,
     lastName: number,
+    role: number,
 }
 
 const validationRules: RuleTypes = {
     firstName: 2,
     lastName: 3,
+    role: 2,
 }
 
 const firstNameValidator = (value: string): ValidationResult => {
@@ -41,44 +44,65 @@ const lastNameValidator = (value: string): ValidationResult => {
     return { valid: true };
 }
 
-const departmentValidator = (value: string): ValidationResult => {
-    if (value.trim() == "") {
-        return { valid: false, message: "Department is required" };
+const roleValidator = (value: string): ValidationResult => {
+    if (value.trim().length === 0) {
+        return { valid: false, message: "Role is required" };
+    }
+    if (value.trim().length < validationRules.role) {
+        return {
+            valid: false,
+            message: "Role must be at least 2 letters long"
+        }
     }
     return { valid: true };
 }
 
-export default function EmployeeForm({addEmployee, employees} : EmployeeFormTypes) {
+export default function EmployeeForm({addLeader, leaders} : LeaderFormTypes) {
     const firstName = useFormInput<string>("", firstNameValidator, false);
     const lastName = useFormInput<string>("", lastNameValidator, false);
-    const department = useFormInput<string>("", departmentValidator, true);
+    const role = useFormInput<string>("", roleValidator, true);
+
+    const [roleError, setRoleError] = useState<string>("");
+
+    const roleExists = (role: string, leaders: LeadershipRoleData) => {
+        const reformatedRole = role.trim().toLowerCase();
+        return Object.values(leaders).some(l => 
+            l.some(r => (r.role ?? "").trim().toLowerCase() === reformatedRole)
+        );
+    }
 
     function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
         
         const firstValid = firstName.validate();
         const lastValid = lastName.validate();
-        const depValid = department.validate();
+        const roleValid = role.validate();
 
-        if (!firstValid.valid || !lastValid.valid || !depValid.valid) {
-            return;
+        if (roleValid.valid && roleExists(role.value, leaders)) {
+        setRoleError("Role already exists, please declare a new one.");
+        return;
         }
 
-        addEmployee(firstName.value, lastName.value, department.value);
+        if (!firstValid.valid || !lastValid.valid || !roleValid.valid) {
+        return;
+        }
+
+        addLeader(firstName.value, lastName.value, role.value);
 
         firstName.setValue("");
         lastName.setValue("");
-        department.setValue("");
+        role.setValue("");
 
         firstName.clearMessage();
         lastName.clearMessage();
-        department.clearMessage();
+        role.clearMessage();
     }
 
     const submitValues = 
         firstNameValidator(firstName.value).valid && 
         lastNameValidator(lastName.value).valid && 
-        departmentValidator(department.value).valid
+        roleValidator(role.value).valid &&
+        !roleExists(role.value, leaders);
     return (
         <>
             <form onSubmit={handleSubmit} >
@@ -100,13 +124,24 @@ export default function EmployeeForm({addEmployee, employees} : EmployeeFormType
                     onChange={lastName.onChange} 
                     onBlur={lastName.onBlur} 
                     error={lastName.message}/>
-                    <UserSelection 
-                    name="department" 
-                    employees={employees} 
-                    onChange={department.onChange} 
-                    value={department.value}/>
-
-                    {department.message && <div className="input-error">{department.message}</div>}
+                    <UserInput
+                    type="text"
+                    placeholder="Role"
+                    name="role"
+                    value={role.value}
+                    onChange={(e) => {
+                        role.onChange(e);
+                        if (roleError) {
+                            setRoleError("");
+                        }
+                    }}
+                    onBlur={() => {
+                        role.onBlur();
+                        if (role.value && roleExists(role.value, leaders)) {
+                            setRoleError("Role already exists, please declare a new one.")
+                        }
+                    }}
+                    error={role.message || roleError}/>
                 </div>
                 <button 
                 type="submit" 

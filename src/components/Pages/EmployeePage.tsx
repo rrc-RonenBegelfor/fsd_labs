@@ -16,7 +16,10 @@ function EmployeePage() {
             ) : (
                 <>
                     <EmployeeDirectory employees={employees} />
-                    <EmployeeForm addEmployee={addEmployee} employees={employees} />
+                    <EmployeeForm
+                        addEmployee={addEmployee}
+                        employees={employees}
+                    />
                 </>
             )}
         </>
