@@ -1,110 +1,115 @@
-import { useState } from "react"
 import UserInput from "./UserInput/UserInput"
 import type { EmployeeFormTypes } from "../../types/EmployeeFormTypes";
 import "./EmployeeForm.css"
 import UserSelection from "./UserSelection/UserSelection";
+import type { ValidationResult } from "../../types/ValidationFormHookTypes";
+import { useFormInput } from "../../hooks/useFormInput";
 
 type RuleTypes = {
     firstName: number,
     lastName: number,
 }
 
+const validationRules: RuleTypes = {
+    firstName: 2,
+    lastName: 3,
+}
+
+const firstNameValidator = (value: string): ValidationResult => {
+    if (value.trim().length === 0) {
+        return { valid: false, message: "First name is required" };
+    }
+    if (value.trim().length < validationRules.firstName) {
+        return {
+            valid: false,
+            message: "First name must be at least 2 letters long"
+        }
+    }
+    return { valid: true };
+}
+
+const lastNameValidator = (value: string): ValidationResult => {
+    if (value.trim().length === 0) {
+        return { valid: false, message: "Last name is required" };
+    }
+    if (value.trim().length < validationRules.lastName) {
+        return {
+            valid: false,
+            message: "Last name must be at least 3 letters long"
+        }
+    }
+    return { valid: true };
+}
+
+const departmentValidator = (value: string): ValidationResult => {
+    if (value.trim() == "") {
+        return { valid: false, message: "Department is required" };
+    }
+    return { valid: true };
+}
+
 export default function EmployeeForm({addEmployee, employees} : EmployeeFormTypes) {
-    const [inputs, setInputs] = useState<{
-        firstName: string,
-        lastName: string,
-        department: string,
-    }>({
-        firstName: "",
-        lastName: "",
-        department: "",
-    });
+    const firstName = useFormInput<string>("", firstNameValidator, false);
+    const lastName = useFormInput<string>("", lastNameValidator, false);
+    const department = useFormInput<string>("", departmentValidator, true);
 
-    const [touched, setTouched] = useState({
-        firstName: false,
-        lastName: false,
-        department: false,
-    })
-
-    const validationRules: RuleTypes = {
-        firstName: 2,
-        lastName: 3,
-    }
-    
-    function validForm(rules: RuleTypes) {
-
-        const validFirstName =  inputs.firstName.length > rules.firstName;
-        const validLastName = inputs.lastName.length > rules.lastName;
-        const validDepartment = inputs.department != "";
-    
-        const isFormValid =
-            validFirstName &&
-            validLastName &&
-            validDepartment;
-
-        return isFormValid;
-    }
-
-
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const { name, value } = e.target;
-
-        setInputs((prev) => ({
-            ...prev, [name]: value,
-        }));
-    }
-
-    function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        const { name, value } = e.target;
-
-        setInputs((prev) => ({
-            ...prev, [name]: value,
-        }));
-    }
-
-    function inputTouched(e: React.FocusEvent<HTMLInputElement>) {
-        const { name } = e.target;
-
-        setTouched((prev) => ({
-            ...prev, [name] : true
-        }))
-    }
-
-    // It says FormEvent is deprecated but I am unsure what to use for the type anyways, it it does not place a scary red underline, it does not place a scary red underline :D
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
         
-        addEmployee(
-            inputs.firstName,
-            inputs.lastName,
-            inputs.department,
-        );
+        const firstValid = firstName.validate();
+        const lastValid = lastName.validate();
+        const depValid = department.validate();
 
-        setInputs(
-            {
-                firstName: "",
-                lastName: "",
-                department: "",
-            }
-        )
+        if (!firstValid.valid || !lastValid.valid || !depValid.valid) {
+            return;
+        }
 
-        setTouched(
-            {
-                firstName: false,
-                lastName: false,
-                department: false,
-            }
-        )
-        console.log(inputs);
+        addEmployee(firstName.value, lastName.value, department.value);
+
+        firstName.setValue("");
+        lastName.setValue("");
+        department.setValue("");
+
+        firstName.clearMessage();
+        lastName.clearMessage();
+        department.clearMessage();
     }
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="input-design">
-                <UserInput type="text" error="First name must be at least 2 letters long" placeholder="First Name" name="firstName" value={inputs.firstName} onChange={handleChange} minLength={validationRules.firstName} touched={touched.firstName} onBlur={inputTouched}/>
-                <UserInput type="text" error="Last name must be at least 3 letters long" placeholder="Last Name" name="lastName" value={inputs.lastName} onChange={handleChange} minLength={validationRules.lastName} touched={touched.lastName} onBlur={inputTouched}/>
-                <UserSelection name="department" employees={employees} onChange={handleSelectChange} value={inputs.department}/>
-                <button type="submit" disabled={!validForm(validationRules)}>Submit</button>
+            <form onSubmit={handleSubmit} >
+                <div className="input-design">
+
+                    <UserInput 
+                    type="text" 
+                    placeholder="First Name" 
+                    name="firstName" 
+                    value={firstName.value} 
+                    onChange={firstName.onChange} 
+                    onBlur={firstName.onBlur} 
+                    error={firstName.message}/>
+                    <UserInput 
+                    type="text" 
+                    placeholder="Last Name" 
+                    name="lastName" 
+                    value={lastName.value} 
+                    onChange={lastName.onChange} 
+                    onBlur={lastName.onBlur} 
+                    error={lastName.message}/>
+                    <UserSelection 
+                    name="department" 
+                    employees={employees} 
+                    onChange={department.onChange} 
+                    value={department.value}/>
+
+                    {department.message && <div className="input-error">{department.message}</div>}
+                </div>
+                <button 
+                type="submit" 
+                disabled={
+                !(firstName.isValid && lastName.isValid && department.isValid)
+                }
+                >Submit</button>
             </form> 
         </>
     )
