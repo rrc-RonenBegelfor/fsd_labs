@@ -1,0 +1,43 @@
+.input-design {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    gap: 0.25rem;
+}
+
+
+.input-design input {
+    padding: 0.5rem 8rem 0.5rem 0.25rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-error {
+    color: red;
+    font-size: 0.875rem;
+}
+
+form {
+    margin: 0 auto 0 auto;
+    text-align: left;
+}
+
+select {
+    padding: 0.5rem;
+}
+
+label {
+    margin: 1em 0 0 0;
+}
+
+button {
+    margin: 1em;
+    padding: 1em;
+    background-color: rgb(65, 65, 65);
+    border: none;
+}
+
+button:hover:not([disabled]) {
+    cursor: pointer;
+    background-color: rgb(94, 93, 93);
+}
