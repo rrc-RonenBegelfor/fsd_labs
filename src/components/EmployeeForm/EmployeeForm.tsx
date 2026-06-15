@@ -51,7 +51,7 @@ const departmentValidator = (value: string): ValidationResult => {
 export default function EmployeeForm({addEmployee, employees} : EmployeeFormTypes) {
     const firstName = useFormInput<string>("", firstNameValidator, false);
     const lastName = useFormInput<string>("", lastNameValidator, false);
-    const department = useFormInput<string>("", departmentValidator, false);
+    const department = useFormInput<string>("", departmentValidator, true);
 
     function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -86,7 +86,7 @@ export default function EmployeeForm({addEmployee, employees} : EmployeeFormType
                     name="firstName" 
                     value={firstName.value} 
                     onChange={firstName.onChange} 
-                    onBlur={() => firstName.onBlur} 
+                    onBlur={firstName.onBlur} 
                     error={firstName.message}/>
                     <UserInput 
                     type="text" 
@@ -94,7 +94,7 @@ export default function EmployeeForm({addEmployee, employees} : EmployeeFormType
                     name="lastName" 
                     value={lastName.value} 
                     onChange={lastName.onChange} 
-                    onBlur={() => lastName.onBlur} 
+                    onBlur={lastName.onBlur} 
                     error={lastName.message}/>
                     <UserSelection 
                     name="department" 
