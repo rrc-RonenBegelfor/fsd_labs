@@ -75,6 +75,10 @@ export default function EmployeeForm({addEmployee, employees} : EmployeeFormType
         department.clearMessage();
     }
 
+    const submitValues = 
+        firstNameValidator(firstName.value).valid && 
+        lastNameValidator(lastName.value).valid && 
+        departmentValidator(department.value).valid
     return (
         <>
             <form onSubmit={handleSubmit} >
@@ -107,7 +111,7 @@ export default function EmployeeForm({addEmployee, employees} : EmployeeFormType
                 <button 
                 type="submit" 
                 disabled={
-                !(firstName.isValid && lastName.isValid && department.isValid)
+                !(submitValues)
                 }
                 >Submit</button>
             </form> 
