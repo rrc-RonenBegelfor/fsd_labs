@@ -24,7 +24,7 @@ export function useFormInput<T>(
     const onChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     ) => {
-        const newValue = (e.target as HTMLInputElement | HTMLSelectElement).value  as T;
+        const newValue = (e.target as HTMLInputElement | HTMLSelectElement).value as unknown as T;
         setValue(newValue);
 
         if (validateOnChange) {
