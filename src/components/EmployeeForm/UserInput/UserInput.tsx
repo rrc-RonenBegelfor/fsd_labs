@@ -4,15 +4,13 @@ type UserInputTypes = {
     placeholder: string,
     name: string,
     value: string,
-    minLength: number,
-    touched: boolean,
     onBlur: React.FocusEventHandler<HTMLInputElement>
     onChange: React.ChangeEventHandler<HTMLInputElement>
 }
 
-export default function UserInput({error, type, placeholder, name, value, minLength, touched, onBlur, onChange} : UserInputTypes) {
+export default function UserInput({error, type, placeholder, name, value, onBlur, onChange} : UserInputTypes) {
 
-    const hasError = touched && value.length < minLength;
+    const hasError = (error !== "");
 
     return <>
             <label htmlFor={name}>{placeholder}</label>

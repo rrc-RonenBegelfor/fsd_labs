@@ -1,14 +1,11 @@
-import { LeadershipRoles } from "../../assets/data"
-import Footer from "../common/Layout/Footer/Footer"
-import Header from "../common/Layout/Header/Header"
-import { Nav } from "../common/Layout/Nav/Nav"
+import { useLeaders } from "../../hooks/useLeaders"
 import LeadershipRoleList from "../LeadershipRoleList/LeadershipRoleList"
 
 export default function OrganizationPage() {
+
+    const { leaders, loading, error} = useLeaders();
+
     return <>
-        <Header />
-        <Nav />
-        <LeadershipRoleList leaders={LeadershipRoles}/>
-        <Footer />
+        {error ? (<div>{error}</div>) :loading ? (<div className="blink">Loading leaders...</div>) : (<LeadershipRoleList leaders={leaders}/>)}
     </>
 }
