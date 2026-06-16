@@ -13,7 +13,7 @@ type RuleTypes = {
 }
 
 const validationRules: RuleTypes = {
-    firstName: 2,
+    firstName: 3,
     lastName: 3,
     role: 2,
 }
@@ -25,7 +25,7 @@ const firstNameValidator = (value: string): ValidationResult => {
     if (value.trim().length < validationRules.firstName) {
         return {
             valid: false,
-            message: "First name must be at least 2 letters long"
+            message: "First name must be at least 3 letters long"
         }
     }
     return { valid: true };
@@ -57,7 +57,7 @@ const roleValidator = (value: string): ValidationResult => {
     return { valid: true };
 }
 
-export default function EmployeeForm({addLeader, leaders} : LeaderFormTypes) {
+export default function LeadershipForm({addLeader, leaders} : LeaderFormTypes) {
     const firstName = useFormInput<string>("", firstNameValidator, false);
     const lastName = useFormInput<string>("", lastNameValidator, false);
     const role = useFormInput<string>("", roleValidator, true);
