@@ -6,7 +6,7 @@ export async function fetchLeaders(): Promise<LeadershipRoleData> {
     return leaders;
 }
 
-export async function createLeader(firstName: string, lastName: string, role: string) {
-    const updatedLeaders = await LeadershipRepo.createLeader(firstName, lastName, role);
-    return updatedLeaders;
-}
+// export async function createLeader(firstName: string, lastName: string, role: string) {
+//     const updatedLeaders = await LeadershipRepo.createLeader(firstName, lastName, role);
+//     return updatedLeaders;
+// }
