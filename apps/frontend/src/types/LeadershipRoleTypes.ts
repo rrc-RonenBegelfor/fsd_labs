@@ -1,9 +1,15 @@
 export type Role = {
-    firstName: string,
-    lastName: string,
-    role: string
-}
+    firstName: string;
+    lastName: string;
+    role: string;
+};
 
+export type RoleDTO = {
+    id: number;
+    firstName: string;
+    lastName: string;
+    role: string;
+};
 
 export type LeadershipRoleData = Record<string, Role[]>;
 

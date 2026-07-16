@@ -1,21 +1,59 @@
-import type { LeadershipRoleData, Role } from "../types/LeadershipRoleTypes";
-import  { LeadershipRoles as LeadershipData} from "./data";
+import type { LeadershipRoleData, RoleDTO, Role } from "../types/LeadershipRoleTypes";
 
-export function fetchLeaders(): LeadershipRoleData {
-    return LeadershipData;
-}
+type LeadersResponseJSON = {
+    message: string;
+    data: RoleDTO[];
+};
 
-export function createLeader(firstName: string, lastName: string, role: string): LeadershipRoleData {
-    const newLeader: Role = { firstName, lastName, role };
+type LeaderResponseJSON = {
+    message: string;
+    data: Role;
+};
 
-    if (!LeadershipData["leadershipRoles"]) {
-        LeadershipData["leadershipRoles"] = [];
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
+const LEADERS_ENDPOINT = "/leaders";
+
+export async function fetchLeaders(): Promise<LeadershipRoleData> {
+    const leaderResponse = await fetch(`${BASE_URL}${LEADERS_ENDPOINT}`);
+
+    if (!leaderResponse.ok) {
+        throw new Error("Failed to fetch leaders");
     }
 
-    LeadershipData["leadershipRoles"].push(newLeader);
+    const json: LeadersResponseJSON = await leaderResponse.json();
 
     return {
-        ...LeadershipData,
-        leadershipRoles: [...LeadershipData["leadershipRoles"]],
+        leadershipRoles: json.data.map((leader) => ({
+            firstName: leader.firstName,
+            lastName: leader.lastName,
+            role: leader.role
+        }))
     };
+}
+
+export async function createLeader(
+    firstName: string,
+    lastName: string,
+    role: string
+): Promise<Role> {
+
+    const response = await fetch(`${BASE_URL}${LEADERS_ENDPOINT}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            firstName,
+            lastName,
+            role
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to create employee");
+    }
+
+    const json: LeaderResponseJSON = await response.json();
+
+    return json.data;
 }

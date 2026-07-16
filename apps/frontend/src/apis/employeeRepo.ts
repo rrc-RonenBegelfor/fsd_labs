@@ -1,25 +1,66 @@
-import type { Employee, EmployeeDirectoryData } from "../types/EmployeeDirectoryTypes";
-import { EmployeeData as employeeData} from "./data";
+import type { EmployeeDirectoryData, EmployeeDTO, Employee } from "../types/EmployeeDirectoryTypes";
 
-export function fetchEmployees(): EmployeeDirectoryData {
-    return employeeData;
-}
+type EmployeesResponseJSON = {message: string, data: EmployeeDTO[]};
+type EmployeeResponseJSON = {
+    message: string;
+    data: Employee;
+};
 
-export function fetchEmployeesByDeparmtent(department: string): Employee[] {
-    return employeeData[department] ?? [];
-}
 
-export function createEmployee(firstName: string, lastName: string, department: string): EmployeeDirectoryData {
-    const newEmployee: Employee = { firstName, lastName };
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
+const EMPLOYEE_ENDPOINT = "/employees"
 
-    if (!employeeData[department]) {
-        employeeData[department] = [];
+export async function fetchEmployees(): Promise<EmployeeDirectoryData> {
+    const employeeResponse = await fetch(`${BASE_URL}${EMPLOYEE_ENDPOINT}`);
+
+    if (!employeeResponse.ok) {
+        throw new Error("Failed to fetch employees");
     }
 
-    employeeData[department].push(newEmployee);
+    const json: EmployeesResponseJSON = await employeeResponse.json();
 
-    return {
-        ...employeeData,
-        [department]: [...employeeData[department]],
-    };
+    return json.data.reduce((directory, employee) => {
+        if (!directory[employee.department]) {
+            directory[employee.department] = [];
+        }
+
+        directory[employee.department].push({
+            firstName: employee.firstName,
+            lastName: employee.lastName,
+            department: ""
+        });
+
+        return directory;
+    }, {} as EmployeeDirectoryData);
+}
+
+// export async function fetchEmployeesByDeparmtent(department: string): Employee[] {
+//     return employeeData[department] ?? [];
+// }
+
+export async function createEmployee(
+    firstName: string,
+    lastName: string,
+    department: string
+): Promise<Employee> {
+
+    const response = await fetch(`${BASE_URL}${EMPLOYEE_ENDPOINT}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            firstName,
+            lastName,
+            department
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to create employee");
+    }
+
+    const json: EmployeeResponseJSON = await response.json();
+
+    return json.data;
 }

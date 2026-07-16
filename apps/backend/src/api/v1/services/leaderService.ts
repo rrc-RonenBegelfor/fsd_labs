@@ -12,13 +12,13 @@ import prisma from "../../../../prisma/client";
  */
 export const fetchAllLeaders = async(): Promise<Role[]> => {
     // get all records in the Leader table
-    return prisma.Leader.findMany();
+    return prisma.role.findMany();
 }
 
 export const getLeaderById = async(id: number): Promise<Role | null> => {
     try {
         // get first record that match the "where" object key/value pairs
-        const Leader = prisma.Leader.findUnique({
+        const Leader = prisma.role.findUnique({
             where: {
                 id: id
             }
@@ -35,13 +35,13 @@ export const getLeaderById = async(id: number): Promise<Role | null> => {
 }
 
 export const createLeader = async(LeaderData: {
-    title: string,
-    definition: string
+    firstName: string;
+    lastName: string;
+    role: string;
 }): Promise<Role> => {
     // create a new Leader with LeaderData as its column values, except for isFavourite as false
-    const newLeader: Role = await prisma.Leader.create({
+    const newLeader: Role = await prisma.role.create({
         data: {
-            isFavourite: false,
             ...LeaderData
         }
     });
@@ -54,7 +54,7 @@ export const updateLeader = async(
     Leader: {title: string, definition: string, isFavourite: boolean}
 ): Promise<Role> => {
     // find a Leader where the id matches the id parameter, and update with the Leader argument for values
-    const updateLeader = await prisma.Leader.update({
+    const updateLeader = await prisma.role.update({
         where: {
             id: id
         },
@@ -67,7 +67,7 @@ export const updateLeader = async(
 
 export const deleteLeader = async(id: number): Promise<void> => {
     // delete the Leader that matches the where key/value pairs
-    await prisma.Leader.delete({
+    await prisma.role.delete({
         where: {
             id: id
         }

@@ -35,8 +35,8 @@ app.get("/",  (_req, res) => {
 });
 
 // use termRoutes
-app.use("/api/v1/employees", employeeRoutes);
-app.use("/api/v1/leaders", leaderRoutes);
+app.use("/api/v1", employeeRoutes);
+app.use("/api/v1", leaderRoutes);
 
 //errorhandler catches errors as last element in middleware chain
 // occurs when "next" is invoked

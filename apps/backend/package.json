@@ -3,40 +3,37 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/server.ts",
+    "start": "tsx src/server.ts",
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "prisma": {
     "seed": "ts-node --transpile-only prisma/seed.ts"
   },
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "@types/cors": "^2.8.17",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "morgan": "^1.10.0",
+    "pg": "^8.22.0"
+  },
   "devDependencies": {
-    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/adapter-pg": "^6.19.3",
     "@types/express": "^5.0.6",
     "@types/node": "^22.20.1",
     "@types/pg": "^8.20.0",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "dotenv": "^16.6.1",
-    "pg": "^8.22.0",
-    "prisma": "^6.5.0",
+    "prisma": "^6.19.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
-    "tsx": "^4.23.0",
-    "typescript": "^7.0.2"
-  },
-  "dependencies": {
-    "@prisma/client": "^6.19.3",
-    "@types/cors": "^2.8.17",
-    "@types/morgan": "^1.9.9",
-    "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "joi": "^17.13.3",
-    "morgan": "^1.10.0"
+    "tsx": "^4.23.1",
+    "typescript": "^6.0.2"
   }
 }

@@ -24,10 +24,25 @@ export function useEmployees() {
         loadEmployees();
     }, []);
 
-    const addEmployee = async (firstName: string, lastName: string, department: string) => {
+    const addEmployee = async (
+        firstName: string,
+        lastName: string,
+        department: string
+    ) => {
         try {
-            const updatedEmployees = await EmployeeService.createEmployee(firstName, lastName, department);
-            setEmployees(updatedEmployees);
+            const newEmployee = await EmployeeService.createEmployee(
+                firstName,
+                lastName,
+                department
+            );
+
+            setEmployees(prev => ({
+                ...prev,
+                [department]: [
+                    ...(prev[department] ?? []),
+                    newEmployee
+                ]
+            }));
         } catch (e) {
             setError((e as Error).message ?? "There was an error adding the employee");
         }

@@ -11,6 +11,8 @@ export const leaderSchema: ObjectSchema = Joi.object({
         "any.required": "Last name is required",
         "string.empty": "Last name cannot be empty"
     }),
-    id: Joi.string().optional(),
-    role: Joi.string().optional()
+    role: Joi.string().required().messages({
+        "any.required": "Role is required",
+        "string.empty": "Role cannot be empty"
+    })
 });

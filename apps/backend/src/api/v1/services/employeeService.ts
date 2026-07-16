@@ -35,13 +35,13 @@ export const getEmployeeById = async(id: number): Promise<Employee | null> => {
 }
 
 export const createEmployee = async(employeeData: {
-    title: string,
-    definition: string
+    firstName: string;
+    lastName: string;
+    department: string;
 }): Promise<Employee> => {
     // create a new employee with employeeData as its column values, except for isFavourite as false
     const newEmployee: Employee = await prisma.employee.create({
         data: {
-            isFavourite: false,
             ...employeeData
         }
     });
