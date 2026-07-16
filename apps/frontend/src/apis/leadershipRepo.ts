@@ -1,5 +1,5 @@
 import type { LeadershipRoleData, Role } from "../types/LeadershipRoleTypes";
-import  { LeadershipRoles as LeadershipData} from "../apis/data";
+import  { LeadershipRoles as LeadershipData} from "./data";
 
 export function fetchLeaders(): LeadershipRoleData {
     return LeadershipData;
