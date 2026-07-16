@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 async function main() {
     // clear table
     await prisma.employee.deleteMany();
-    await prisma.leadership.deleteMany();
+    await prisma.role.deleteMany();
 
     // insert employees to db
     const createManyEmployees = await prisma.employee.createManyAndReturn(
@@ -19,7 +19,7 @@ async function main() {
         }
     );
 
-    const createManyLeaders = await prisma.leader.createManyAndReturn(
+    const createManyLeaders = await prisma.role.createManyAndReturn(
         {
             data: LeaderData,
             skipDuplicates: true
@@ -32,11 +32,9 @@ async function main() {
 main()
     .then(async () => {
         await prisma.$disconnect();
-        await pool.end();
     })
     .catch(async (e) => {
         console.error(e);
         await prisma.$disconnect();
-        await pool.end();
         process.exit(1);
 });
