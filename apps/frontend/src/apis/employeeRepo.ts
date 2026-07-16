@@ -1,6 +1,10 @@
-import type { EmployeeDirectoryData, EmployeeDTO } from "../types/EmployeeDirectoryTypes";
+import type { EmployeeDirectoryData, EmployeeDTO, Employee } from "../types/EmployeeDirectoryTypes";
 
 type EmployeesResponseJSON = {message: string, data: EmployeeDTO[]};
+type EmployeeResponseJSON = {
+    message: string;
+    data: Employee;
+};
 
 
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
@@ -22,7 +26,8 @@ export async function fetchEmployees(): Promise<EmployeeDirectoryData> {
 
         directory[employee.department].push({
             firstName: employee.firstName,
-            lastName: employee.lastName
+            lastName: employee.lastName,
+            department: ""
         });
 
         return directory;
@@ -33,17 +38,29 @@ export async function fetchEmployees(): Promise<EmployeeDirectoryData> {
 //     return employeeData[department] ?? [];
 // }
 
-// export async function createEmployee(firstName: string, lastName: string, department: string): EmployeeDirectoryData {
-//     const newEmployee: Employee = { firstName, lastName };
+export async function createEmployee(
+    firstName: string,
+    lastName: string,
+    department: string
+): Promise<Employee> {
 
-//     if (!employeeData[department]) {
-//         employeeData[department] = [];
-//     }
+    const response = await fetch(`${BASE_URL}${EMPLOYEE_ENDPOINT}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            firstName,
+            lastName,
+            department
+        }),
+    });
 
-//     employeeData[department].push(newEmployee);
+    if (!response.ok) {
+        throw new Error("Failed to create employee");
+    }
 
-//     return {
-//         ...employeeData,
-//         [department]: [...employeeData[department]],
-//     };
-// }
+    const json: EmployeeResponseJSON = await response.json();
+
+    return json.data;
+}

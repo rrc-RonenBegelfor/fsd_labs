@@ -28,7 +28,7 @@ export function useLeaders() {
             const updatedLeaders = await LeadershipService.createLeader(firstName, lastName, role);
             setLeaders(updatedLeaders);
         } catch (e) {
-            setError((e as Error).message ?? "There was an error adding the employee");
+            setError((e as Error).message ?? "There was an error adding the leader");
         }
     }
 

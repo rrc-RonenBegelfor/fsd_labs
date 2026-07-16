@@ -9,9 +9,9 @@ export const getAllLeaders = async(
     next: NextFunction
 ): Promise<void> => {
     try {
-        const Leaders = await leaderService.fetchAllLeaders();
+        const leaders = await leaderService.fetchAllLeaders();
         res.status(200).json(
-            successResponse(Leaders, "Leaders retrieved successfully")
+            successResponse(leaders, "Leaders retrieved successfully")
         );
     } catch (error) {
         next (error);
@@ -24,10 +24,10 @@ export const getLeaderById = async(
     next: NextFunction
 ): Promise<void> => {
     try {
-        const Leader: Role | null = 
+        const leader: Role | null = 
             await leaderService.getLeaderById(Number.parseInt(req.params.id as string as string));
-        if(Leader) {
-            res.json(successResponse(Leader, "Leader retrieved succesfully"));
+        if(leader) {
+            res.json(successResponse(leader, "Leader retrieved succesfully"));
         } else{
             throw new Error("Leader not found");
         }

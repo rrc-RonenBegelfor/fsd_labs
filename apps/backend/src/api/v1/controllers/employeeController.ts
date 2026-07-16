@@ -9,9 +9,9 @@ export const getAllEmployees = async(
     next: NextFunction
 ): Promise<void> => {
     try {
-        const Employees = await employeeService.fetchAllEmployees();
+        const employees = await employeeService.fetchAllEmployees();
         res.status(200).json(
-            successResponse(Employees, "Employees retrieved successfully")
+            successResponse(employees, "Employees retrieved successfully")
         );
     } catch (error) {
         next (error);
@@ -24,10 +24,10 @@ export const getEmployeeById = async(
     next: NextFunction
 ): Promise<void> => {
     try {
-        const Employee: Employee | null = 
+        const employee: Employee | null = 
             await employeeService.getEmployeeById(Number.parseInt(req.params.id as string as string));
-        if(Employee) {
-            res.json(successResponse(Employee, "Employee retrieved succesfully"));
+        if(employee) {
+            res.json(successResponse(employee, "Employee retrieved succesfully"));
         } else{
             throw new Error("Employee not found");
         }

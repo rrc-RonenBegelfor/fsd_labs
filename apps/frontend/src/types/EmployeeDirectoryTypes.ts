@@ -1,6 +1,8 @@
 export type Employee = {
+    id?: number;
     firstName: string;
-    lastName?: string;
+    lastName: string;
+    department: string;
 };
 
 export type EmployeeDTO = {

@@ -11,7 +11,7 @@ export async function fetchEmployees() {
 //     return employeesByDepartment;
 // }
 
-// export async function createEmployee(firstName: string, lastName: string, department: string) {
-//     const updatedEmployees = await EmployeeRepo.createEmployee(firstName, lastName, department);
-//     return updatedEmployees;
-// }
+export async function createEmployee(firstName: string, lastName: string, department: string) {
+    const updatedEmployees = await EmployeeRepo.createEmployee(firstName, lastName, department);
+    return updatedEmployees;
+}

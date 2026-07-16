@@ -53,7 +53,7 @@ export default function EmployeeForm({addEmployee, employees} : EmployeeFormType
     const lastName = useFormInput<string>("", lastNameValidator, false);
     const department = useFormInput<string>("", departmentValidator, true);
 
-    function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
         
         const firstValid = firstName.validate();
@@ -64,7 +64,7 @@ export default function EmployeeForm({addEmployee, employees} : EmployeeFormType
             return;
         }
 
-        addEmployee(firstName.value, lastName.value, department.value);
+        await  addEmployee(firstName.value, lastName.value, department.value);
 
         firstName.setValue("");
         lastName.setValue("");
