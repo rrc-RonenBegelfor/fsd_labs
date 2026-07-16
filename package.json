@@ -6,6 +6,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "build": "npm run build --workspace=@fsd_labs/frontend",
     "start:frontend": "npm run dev --workspace=@fsd_labs/frontend",
     "start:backend": "npm run dev --workspace=@fsd_labs/backend"
   },
