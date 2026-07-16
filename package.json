@@ -23,9 +23,13 @@
   },
   "homepage": "https://github.com/rrc-RonenBegelfor/@fsd_labs#readme",
   "dependencies": {
-    "@prisma/client": "^7.8.0"
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "pg": "^8.22.0"
   },
   "devDependencies": {
-    "@types/node": "^26.1.1"
+    "@types/jest": "^30.0.0",
+    "@types/node": "^26.1.1",
+    "prisma": "^7.8.0"
   }
 }

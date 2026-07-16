@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+      "types": ["node", "jest"],
+
       // Common strictness rules
         "strict": true,
         "noUnusedLocals": true,
