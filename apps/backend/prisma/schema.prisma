@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+datasource db {
+  provider = "postgresql"
+}
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+model Role {
+  id  Int @id @default(autoincrement())
+  firstName String
+  lastName  String
+  role  String
+}
+
+model Employee {
+  id  Int @id @default(autoincrement())
+  firstName String
+  lastName  String
+  department  String
+}
