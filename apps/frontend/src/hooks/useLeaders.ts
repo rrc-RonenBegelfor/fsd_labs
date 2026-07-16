@@ -23,14 +23,29 @@ export function useLeaders() {
         loadLeaders();
     }, []);
 
-    const addLeader = async (firstName: string, lastName: string, role: string) => {
-        try {
-            const updatedLeaders = await LeadershipService.createLeader(firstName, lastName, role);
-            setLeaders(updatedLeaders);
-        } catch (e) {
-            setError((e as Error).message ?? "There was an error adding the leader");
-        }
-    }
+    const addLeader = async (
+            firstName: string,
+            lastName: string,
+            role: string
+        ) => {
+            try {
+                const newLeader = await LeadershipService.createLeader(
+                    firstName,
+                    lastName,
+                    role
+                );
+    
+                setLeaders(prev => ({
+                    ...prev,
+                    [role]: [
+                        ...(prev[role] ?? []),
+                        newLeader
+                    ]
+                }));
+            } catch (e) {
+                setError((e as Error).message ?? "There was an error adding the leader");
+            }
+        };
 
     return { leaders, loading, error, addLeader };
 }
