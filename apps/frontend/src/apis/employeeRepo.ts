@@ -1,5 +1,5 @@
 import type { Employee, EmployeeDirectoryData } from "../types/EmployeeDirectoryTypes";
-import { EmployeeData as employeeData} from "../apis/data";
+import { EmployeeData as employeeData} from "./data";
 
 export function fetchEmployees(): EmployeeDirectoryData {
     return employeeData;

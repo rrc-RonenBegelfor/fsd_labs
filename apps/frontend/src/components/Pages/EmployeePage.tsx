@@ -1,5 +1,5 @@
-import EmployeeDirectory from '../../components/EmployeeDirectory/EmployeeDirectory'
-import EmployeeForm from '../../components/EmployeeForm/EmployeeForm'
+import EmployeeDirectory from '../EmployeeDirectory/EmployeeDirectory'
+import EmployeeForm from '../EmployeeForm/EmployeeForm'
 
 import { useEmployees } from '../../hooks/useEmployees'
 
