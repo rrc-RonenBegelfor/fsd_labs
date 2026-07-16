@@ -4,32 +4,15 @@
     "apps/*"
   ],
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "start:frontend": "npm run dev --workspace=@fsd_labs/frontend",
-    "start:backend": "npm run dev --workspace=@fsd_labs/backend",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:backend": "npm run dev --workspace=@fsd_labs/backend"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rrc-RonenBegelfor/@fsd_labs.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rrc-RonenBegelfor/@fsd_labs/issues"
-  },
-  "homepage": "https://github.com/rrc-RonenBegelfor/@fsd_labs#readme",
-  "dependencies": {
-    "@prisma/adapter-pg": "^7.8.0",
-    "@prisma/client": "^7.8.0",
-    "pg": "^8.22.0"
+  "engines": {
+    "node": "22.x"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@types/node": "^26.1.1",
-    "prisma": "^7.8.0"
+    "@types/node": "^22.20.1"
   }
 }
