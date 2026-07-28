@@ -6,7 +6,7 @@ import { Show, SignInButton } from "@clerk/react";
 
 function EmployeePage() {
 
-    const { employees, loading, refreshing, error, addEmployee, refreshEmployees, pagination } = useEmployees();
+    const { employees, loading, error, addEmployee, refreshEmployees, pagination } = useEmployees();
 
     return (
         <>
@@ -22,12 +22,6 @@ function EmployeePage() {
                     <button onClick={() => refreshEmployees()}>
                         Update Employees
                     </button>
-
-                    {refreshing && (
-                        <div className="blink">
-                            Updating employees...
-                        </div>
-                    )}
 
                     <EmployeeDirectory employees={employees} />
 
