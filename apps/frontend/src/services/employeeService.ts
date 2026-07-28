@@ -18,3 +18,26 @@ export async function createEmployee(firstName: string, lastName: string, depart
     const updatedEmployees = await EmployeeRepo.createEmployee(firstName, lastName, department, getToken);
     return updatedEmployees;
 }
+
+export async function updateEmployee(
+    id: number,
+    employee: {
+        firstName: string;
+        lastName: string;
+        department: string;
+    },
+    getToken: GetToken
+) {
+    return EmployeeRepo.updateEmployee(
+        id,
+        employee,
+        getToken
+    );
+}
+
+export async function deleteEmployee(
+    id: number,
+    getToken: GetToken
+) {
+    return EmployeeRepo.deleteEmployee(id, getToken);
+}

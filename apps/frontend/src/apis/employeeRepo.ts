@@ -89,3 +89,57 @@ export async function createEmployee(
 
     return json.data;
 }
+
+export async function updateEmployee(
+    id: number,
+    employee: {
+        firstName: string;
+        lastName: string;
+        department: string;
+    },
+    getToken: GetToken
+): Promise<Employee> {
+
+    const token = await getToken();
+
+    const response = await fetch(
+        `${BASE_URL}${EMPLOYEE_ENDPOINT}/${id}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(employee),
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to update employee");
+    }
+
+    const json: EmployeeResponseJSON = await response.json();
+
+    return json.data;
+}
+
+export async function deleteEmployee(
+    id: number,
+    getToken: GetToken
+): Promise<void> {
+    const token = await getToken();
+
+    const response = await fetch(
+        `${BASE_URL}${EMPLOYEE_ENDPOINT}/${id}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to delete employee");
+    }
+}

@@ -66,5 +66,38 @@ export function useEmployees() {
         }
     };
 
-    return { employees, loading, error, addEmployee, refreshEmployees, pagination };
+    const updateEmployee = async (
+        id: number,
+        data: {
+            firstName: string;
+            lastName: string;
+            department: string;
+        }
+    ) => {
+        try {
+            await EmployeeService.updateEmployee(
+                id,
+                data,
+                getToken
+            );
+
+            await refreshEmployees(pagination.page);
+
+        } catch(e) {
+            setError((e as Error).message);
+        }
+    };
+
+    const deleteEmployee = async (id: number) => {
+        try {
+            await EmployeeService.deleteEmployee(id, getToken);
+
+            await refreshEmployees(pagination.page);
+
+        } catch(e) {
+            setError((e as Error).message);
+        }
+    };
+
+    return { employees, loading, error, addEmployee, updateEmployee, deleteEmployee, refreshEmployees, pagination };
 }
