@@ -1,11 +1,15 @@
 import { useLeaders } from "../../hooks/useLeaders"
 import LeadershipRoleList from "../LeadershipRoleList/LeadershipRoleList"
 import LeadershipForm from "../LeadershipForm/LeadershipForm"
+
 import { Show, SignInButton } from "@clerk/react";
+import { useOrganizationRole } from "../../hooks/useOrganizationRole";
 
 export default function OrganizationPage() {
 
     const { leaders, loading, error, addLeader, refreshLeaders } = useLeaders();
+
+    const { canCreate } = useOrganizationRole();
 
     return <>
         {error ? (
@@ -17,14 +21,19 @@ export default function OrganizationPage() {
             <div className="blink">Loading leaders...</div>
         ) : (
             <>
-                <button onClick={refreshLeaders}>Refresh Leaders</button>
-                <LeadershipRoleList leaders={leaders}/>
                 <Show when="signed-in">
-                    <LeadershipForm addLeader={addLeader} leaders={leaders}/>
+                    <button onClick={refreshLeaders}>Update Leaders</button>
+                    <LeadershipRoleList leaders={leaders}/>
+
+                    {canCreate && (
+                        <LeadershipForm addLeader={addLeader} leaders={leaders}>
+
+                        </LeadershipForm>
+                    )}
                 </Show>
 
                 <Show when="signed-out">
-                    <p>Sign in to add leaders</p>
+                    <p>Sign in to view leaders!</p>
                     <SignInButton />
                 </Show>
             </>

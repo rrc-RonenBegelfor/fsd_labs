@@ -31,8 +31,6 @@ export const validateRequest = (schema: ObjectSchema): MiddlewareFunction => {
 
             const data: RequestData = {
                 ...req.body,
-                ...req.params,
-                ...req.query
             };
 
             console.log("VALIDATION DATA:", data);

@@ -7,16 +7,26 @@ export function useEmployees() {
     const [employees, setEmployees] = useState<EmployeeDirectoryData>({});
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState<boolean>(true);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 1
+    })
 
     const { getToken } = useAuth();
 
-    const refreshEmployees = async () => {
+    const refreshEmployees = async (page = 1) => {
         try {
-            setLoading(true);
+            if (Object.keys(employees).length === 0) {
+                setLoading(true);
+            }
+
             setError(null);
 
-            const result = await EmployeeService.fetchEmployees();
-            setEmployees(result);
+            const result = await EmployeeService.fetchEmployees(page, 10);
+            setEmployees(result.employees);
+            setPagination(result.pagination);
 
         } catch (e) {
             setError(
@@ -56,5 +66,38 @@ export function useEmployees() {
         }
     };
 
-    return { employees, loading, error, addEmployee, refreshEmployees };
+    const updateEmployee = async (
+        id: number,
+        data: {
+            firstName: string;
+            lastName: string;
+            department: string;
+        }
+    ) => {
+        try {
+            await EmployeeService.updateEmployee(
+                id,
+                data,
+                getToken
+            );
+
+            await refreshEmployees(pagination.page);
+
+        } catch(e) {
+            setError((e as Error).message);
+        }
+    };
+
+    const deleteEmployee = async (id: number) => {
+        try {
+            await EmployeeService.deleteEmployee(id, getToken);
+
+            await refreshEmployees(pagination.page);
+
+        } catch(e) {
+            setError((e as Error).message);
+        }
+    };
+
+    return { employees, loading, error, addEmployee, updateEmployee, deleteEmployee, refreshEmployees, pagination };
 }

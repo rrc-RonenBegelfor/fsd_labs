@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 import "./Nav.css"
-import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
+import { Show, SignInButton, SignUpButton, UserButton, OrganizationSwitcher } from "@clerk/react";
 
 export function Nav() {
     return(
@@ -22,6 +22,7 @@ export function Nav() {
                     <SignUpButton />
                 </Show>
                 <Show when="signed-in">
+                    <OrganizationSwitcher />
                     <UserButton />  
                 </Show>
             </div>

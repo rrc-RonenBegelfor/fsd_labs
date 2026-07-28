@@ -1,23 +1,45 @@
-// Use the employee type defined in prisma/schema.prisma
 import { Employee } from "@prisma/client";
-// initialize a prisma client if not already and use in queries here
 import prisma from "../../../../prisma/client";
 
-/**
- * Services access data as necessary from the Prisma client. They invoke
- * methods on the ORM, which will send queries to the database and respond
- * with data needed.
- * 
- * More general info on Prisma: https://www.prisma.io/docs/orm/overview/prisma-in-your-stack/rest
- */
-export const fetchAllEmployees = async(): Promise<Employee[]> => {
-    // get all records in the employee table
-    return prisma.employee.findMany();
+type PaginatedEmployees = {
+    employees: Employee[];
+    pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+    };
+};
+
+export const fetchAllEmployees = async(
+    page: number,
+    limit: number,
+): Promise<PaginatedEmployees> => {
+    const skip = (page - 1) * limit;
+
+    const employees = await prisma.employee.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+            id: "asc"
+        }
+    });
+
+    const total = await prisma.employee.count();
+
+    return {
+        employees,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+        }
+    }
 }
 
 export const getEmployeeById = async(id: number): Promise<Employee | null> => {
     try {
-        // get first record that match the "where" object key/value pairs
         const employee = prisma.employee.findUnique({
             where: {
                 id: id
@@ -39,7 +61,6 @@ export const createEmployee = async(employeeData: {
     lastName: string;
     department: string;
 }): Promise<Employee> => {
-    // create a new employee with employeeData as its column values, except for isFavourite as false
     const newEmployee: Employee = await prisma.employee.create({
         data: {
             ...employeeData
@@ -51,22 +72,25 @@ export const createEmployee = async(employeeData: {
 
 export const updateEmployee = async(
     id: number,
-    employee: {title: string, definition: string, isFavourite: boolean}
+    employee: {
+        firstName: string;
+        lastName: string;
+        department: string;
+    }
 ): Promise<Employee> => {
-    // find a employee where the id matches the id parameter, and update with the employee argument for values
-    const updateEmployee = await prisma.employee.update({
+    const updatedEmployee = await prisma.employee.update({
         where: {
-            id: id
+            id
         },
         data: {
             ...employee
         }
     });
-    return updateEmployee;
-}
+
+    return updatedEmployee;
+};
 
 export const deleteEmployee = async(id: number): Promise<void> => {
-    // delete the employee that matches the where key/value pairs
     await prisma.employee.delete({
         where: {
             id: id

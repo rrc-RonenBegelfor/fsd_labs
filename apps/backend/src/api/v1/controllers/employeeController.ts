@@ -9,7 +9,13 @@ export const getAllEmployees = async(
     next: NextFunction
 ): Promise<void> => {
     try {
-        const employees = await employeeService.fetchAllEmployees();
+        const page = Number(_req.query.page || 1);
+        const limit = Number(_req.query.limit || 10);
+
+        const employees = await employeeService.fetchAllEmployees(
+            page,
+            limit
+        );
         res.status(200).json(
             successResponse(employees, "Employees retrieved successfully")
         );
