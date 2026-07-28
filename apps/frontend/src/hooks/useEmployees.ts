@@ -1,27 +1,34 @@
 import * as EmployeeService from "../services/employeeService";
 import { useEffect, useState } from "react";
 import type { EmployeeDirectoryData } from "../types/EmployeeDirectoryTypes";
+import { useAuth } from "@clerk/react"
 
 export function useEmployees() {
     const [employees, setEmployees] = useState<EmployeeDirectoryData>({});
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState<boolean>(true);
 
+    const { getToken } = useAuth();
+
+    const refreshEmployees = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            const result = await EmployeeService.fetchEmployees();
+            setEmployees(result);
+
+        } catch (e) {
+            setError(
+                (e as Error).message ?? "There was an error loading employees"
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const loadEmployees = async () => {
-            try {
-                await new Promise(r => setTimeout(r, 1000));
-
-                const result = await EmployeeService.fetchEmployees();
-                setEmployees(result);
-            } catch (e) {
-                setError((e as Error).message ?? "There was an error loading the employees");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadEmployees();
+        refreshEmployees();
     }, []);
 
     const addEmployee = async (
@@ -33,7 +40,8 @@ export function useEmployees() {
             const newEmployee = await EmployeeService.createEmployee(
                 firstName,
                 lastName,
-                department
+                department,
+                getToken
             );
 
             setEmployees(prev => ({
@@ -48,5 +56,5 @@ export function useEmployees() {
         }
     };
 
-    return { employees, loading, error, addEmployee };
+    return { employees, loading, error, addEmployee, refreshEmployees };
 }

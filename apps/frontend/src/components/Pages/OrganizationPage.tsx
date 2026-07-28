@@ -5,14 +5,19 @@ import { Show, SignInButton } from "@clerk/react";
 
 export default function OrganizationPage() {
 
-    const { leaders, loading, error, addLeader} = useLeaders();
+    const { leaders, loading, error, addLeader, refreshLeaders } = useLeaders();
 
     return <>
-        {error ? (<div>{error}</div>
-        ) : loading ? (<div className="blink">Loading leaders...</div>
-
+        {error ? (
+            <>
+                <div>{error}</div>
+                <button onClick={refreshLeaders}>Try to fetch again</button>
+            </>
+        ) : loading ? (
+            <div className="blink">Loading leaders...</div>
         ) : (
             <>
+                <button onClick={refreshLeaders}>Refresh Leaders</button>
                 <LeadershipRoleList leaders={leaders}/>
                 <Show when="signed-in">
                     <LeadershipForm addLeader={addLeader} leaders={leaders}/>

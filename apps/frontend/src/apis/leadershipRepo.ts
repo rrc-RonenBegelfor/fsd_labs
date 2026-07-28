@@ -1,4 +1,5 @@
 import type { LeadershipRoleData, RoleDTO, Role } from "../types/LeadershipRoleTypes";
+import type { GetToken } from "@clerk/react/types";
 
 type LeadersResponseJSON = {
     message: string;
@@ -24,9 +25,10 @@ export async function fetchLeaders(): Promise<LeadershipRoleData> {
 
     return {
         leadershipRoles: json.data.map((leader) => ({
+            id: leader.id,
             firstName: leader.firstName,
             lastName: leader.lastName,
-            role: leader.role
+            role: leader.role,
         }))
     };
 }
@@ -34,13 +36,17 @@ export async function fetchLeaders(): Promise<LeadershipRoleData> {
 export async function createLeader(
     firstName: string,
     lastName: string,
-    role: string
+    role: string,
+    getToken: GetToken
 ): Promise<Role> {
+
+    const token = await getToken();
 
     const response = await fetch(`${BASE_URL}${LEADERS_ENDPOINT}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
             firstName,
@@ -50,7 +56,7 @@ export async function createLeader(
     });
 
     if (!response.ok) {
-        throw new Error("Failed to create employee");
+        throw new Error("Failed to create leader");
     }
 
     const json: LeaderResponseJSON = await response.json();
