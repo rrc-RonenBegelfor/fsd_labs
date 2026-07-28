@@ -17,7 +17,7 @@ export default function OrganizationPage() {
             <div className="blink">Loading leaders...</div>
         ) : (
             <>
-                <button onClick={refreshLeaders}>Refresh Leaders</button>
+                <button onClick={refreshLeaders}>Update Leaders</button>
                 <LeadershipRoleList leaders={leaders}/>
                 <Show when="signed-in">
                     <LeadershipForm addLeader={addLeader} leaders={leaders}/>

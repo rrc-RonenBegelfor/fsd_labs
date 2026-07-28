@@ -2,9 +2,11 @@ import type { GetToken } from "@clerk/react/types";
 import * as EmployeeRepo from "../apis/employeeRepo";
 // import type { Employee } from "../types/EmployeeDirectoryTypes";
 
-export async function fetchEmployees() {
-    const employees = await EmployeeRepo.fetchEmployees();
-    return employees;
+export async function fetchEmployees(
+    page: number = 1,
+    limit: number = 10,
+) {
+    return EmployeeRepo.fetchEmployees(page, limit);
 }
 
 // export async function fetchEmployeesByDeparmtent(department: string) {

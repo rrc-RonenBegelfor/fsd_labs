@@ -7,16 +7,26 @@ export function useEmployees() {
     const [employees, setEmployees] = useState<EmployeeDirectoryData>({});
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState<boolean>(true);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 1
+    })
 
     const { getToken } = useAuth();
 
-    const refreshEmployees = async () => {
+    const refreshEmployees = async (page = 1) => {
         try {
-            setLoading(true);
+            if (Object.keys(employees).length === 0) {
+                setLoading(true);
+            }
+
             setError(null);
 
-            const result = await EmployeeService.fetchEmployees();
-            setEmployees(result);
+            const result = await EmployeeService.fetchEmployees(page, 10);
+            setEmployees(result.employees);
+            setPagination(result.pagination);
 
         } catch (e) {
             setError(
@@ -56,5 +66,5 @@ export function useEmployees() {
         }
     };
 
-    return { employees, loading, error, addEmployee, refreshEmployees };
+    return { employees, loading, error, addEmployee, refreshEmployees, pagination };
 }
