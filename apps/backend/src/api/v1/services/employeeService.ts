@@ -72,18 +72,23 @@ export const createEmployee = async(employeeData: {
 
 export const updateEmployee = async(
     id: number,
-    employee: {title: string, definition: string, isFavourite: boolean}
+    employee: {
+        firstName: string;
+        lastName: string;
+        department: string;
+    }
 ): Promise<Employee> => {
-    const updateEmployee = await prisma.employee.update({
+    const updatedEmployee = await prisma.employee.update({
         where: {
-            id: id
+            id
         },
         data: {
             ...employee
         }
     });
-    return updateEmployee;
-}
+
+    return updatedEmployee;
+};
 
 export const deleteEmployee = async(id: number): Promise<void> => {
     await prisma.employee.delete({
