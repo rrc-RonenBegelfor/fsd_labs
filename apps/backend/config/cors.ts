@@ -4,7 +4,7 @@ import { CorsOptions } from "cors";
 const corsOptions: CorsOptions = {
     // throw an error if the request does not come from the list of allowed origins
     origin: function(origin, callback) {
-        const allowedOrigins = [process.env.FRONTEND_URL];
+        const allowedOrigins = [process.env.FRONTEND_URL, process.env.BACKEND_URL];
 
         // invoke callback (eg. next middleware) if  origin matches or no origin
         // some services (like postman) do not include an origin in their request

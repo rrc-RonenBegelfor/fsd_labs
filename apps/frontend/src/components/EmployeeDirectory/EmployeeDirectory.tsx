@@ -9,7 +9,7 @@ export default function EmployeeDirectory({employees} : EmployeeDirectoryProps) 
                 <EmployeeSection key={department} department={department}>
                     <ul>
                         {employeesList.map(employee => (
-                            <EmployeeList key={employee.firstName + "_" + employee.lastName} employee={employee}/>
+                            <EmployeeList key={employee.id} employee={employee}/>
                         ))}
                     </ul>
                 </EmployeeSection>

@@ -1,3 +1,4 @@
+import type { GetToken } from "@clerk/react/types";
 import type { EmployeeDirectoryData, EmployeeDTO, Employee } from "../types/EmployeeDirectoryTypes";
 
 type EmployeesResponseJSON = {message: string, data: EmployeeDTO[]};
@@ -25,9 +26,10 @@ export async function fetchEmployees(): Promise<EmployeeDirectoryData> {
         }
 
         directory[employee.department].push({
+            id: employee.id,
             firstName: employee.firstName,
             lastName: employee.lastName,
-            department: ""
+            department: employee.department
         });
 
         return directory;
@@ -41,13 +43,17 @@ export async function fetchEmployees(): Promise<EmployeeDirectoryData> {
 export async function createEmployee(
     firstName: string,
     lastName: string,
-    department: string
+    department: string,
+    getToken: GetToken
 ): Promise<Employee> {
+
+    const token = await getToken();
 
     const response = await fetch(`${BASE_URL}${EMPLOYEE_ENDPOINT}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
             firstName,

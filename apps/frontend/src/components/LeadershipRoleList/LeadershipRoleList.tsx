@@ -18,7 +18,7 @@ export default function LeadershipRoleList ({ leaders }: LeadershipRoleProps) {
                 <tbody>
                     {Object.entries(leaders).map(([, attributes]) => (
                         attributes.map((attribute) => (
-                            <tr key={attribute.role}>
+                            <tr key={attribute.id}>
                                 <td>{attribute.firstName} {attribute.lastName}</td>
                                 <td>{attribute.role}</td>
                             </tr>
